@@ -31,7 +31,7 @@
 
   // ── Entwurfs-Wasserzeichen (nur ausserhalb von Releases) ───
   set page(background: if draft {
-    rotate(-45deg, text(size: 90pt, weight: "bold", fill: luma(235), tracking: 0.1em)[ENTWURF])
+    rotate(-45deg, text(size: 90pt, weight: "bold", fill: rgb("#00000005"), tracking: 0.1em)[ENTWURF])
   })
 
   // ── Überschriften ──────────────────────────────────────────

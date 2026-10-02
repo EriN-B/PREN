@@ -93,6 +93,20 @@ Zusätzlich ist pro Anforderung festgehalten, welche Fachrichtung für deren Ums
   ) <tab-anforderungen>
 ]
 
+// Querformat, damit die Skizze möglichst gross dargestellt wird
+#[
+  #set page(flipped: true)
+
+  = Aufgabenskizze <kap-aufgabenskizze>
+
+  #align(center + horizon)[
+    #figure(
+      image("assets/Aufgabenskizze.png", height: 13cm),
+      caption: [Aufgabenskizze],
+    ) <fig-aufgabenskizze>
+  ]
+]
+
 #include "chapters/technologierecherche.typ"
 
 #bibliography("../../library/quellen.bib", title: "Quellenverzeichnis", style: "ieee")
