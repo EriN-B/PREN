@@ -14,7 +14,8 @@ Requires Typst 0.14 (CI pins 0.14.2) and `jq`.
 
 ```sh
 scripts/build-deliveries.sh                     # all deliveries as drafts ("ENTWURF" watermark) → dist/
-scripts/build-deliveries.sh --release v1.2.0    # without watermark (what CI does for releases)
+scripts/build-deliveries.sh --release v1.2.0    # without watermark
+scripts/build-deliveries.sh --release --only milestone_1 v1.2.0   # one delivery (what CI does for releases)
 
 # Compile a single delivery (same flags as the script; --root is required because of ../../library imports)
 typst compile --root docs --font-path docs/library/fonts --ignore-system-fonts \
@@ -38,7 +39,7 @@ There are no tests or linters. "Does it compile" is the check — the PR preview
 ## CI / Releases (`.github/workflows/`)
 
 - **preview-deliveries**: on every PR to `main`, builds draft PDFs and comments a download link on the PR.
-- **release-deliveries**: on merged PRs, creates a GitHub release `vX.Y.Z` with watermark-free PDFs. Bump is controlled by PR label: `release:major` (new milestone delivery), `release:minor` (new chapters/content), none → patch (corrections), `release:skip` → no release.
+- **release-deliveries**: versioned **per delivery**. On merged PRs, for each delivery whose folder `docs/deliveries/<name>/` the PR touched, creates a GitHub release tagged `<name>/vX.Y.Z` with that delivery's watermark-free PDF (built via `build-deliveries.sh --only <name>`). Changes only in `docs/library/` trigger no release. Bump is controlled by PR label and applies to all touched deliveries: `release:major` (new milestone delivery; first release → `v1.0.0`), `release:minor` (new chapters/content), none → patch (corrections), `release:skip` → no release. Also runnable via `workflow_dispatch` (delivery + bump).
 - **check-links**: weekly lychee run over `docs/**/*.bib` and `docs/**/*.typ`; broken links are collected in one GitHub issue. 403/429 are accepted because shops block bots.
 
 `dist/` and `docs/**/*.pdf` are gitignored — never commit PDFs.

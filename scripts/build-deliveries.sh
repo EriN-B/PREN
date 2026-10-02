@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Kompiliert alle Abgaben (docs/deliveries/*/doc.typ) zu PDFs.
 #
-#   scripts/build-deliveries.sh [--release] [VERSION] [OUTDIR]
+#   scripts/build-deliveries.sh [--release] [--only NAME] [VERSION] [OUTDIR]
 #
 #   --release  ohne «ENTWURF»-Wasserzeichen (nur für GitHub-Releases)
+#   --only     nur die Abgabe docs/deliveries/NAME bauen
 #   VERSION    erscheint im Dokument und im Dateinamen (Default: Entwurf)
 #   OUTDIR     Zielordner (Default: dist)
 #
@@ -12,10 +13,14 @@
 set -euo pipefail
 
 release=false
-if [[ "${1:-}" == "--release" ]]; then
-  release=true
-  shift
-fi
+only="*"
+while [[ "${1:-}" == --* ]]; do
+  case "$1" in
+    --release) release=true; shift ;;
+    --only)    only="${2:?--only braucht einen Abgabe-Namen}"; shift 2 ;;
+    *)         echo "Unbekannte Option: $1" >&2; exit 2 ;;
+  esac
+done
 version="${1:-Entwurf}"
 outdir="${2:-dist}"
 
@@ -30,7 +35,8 @@ slugify() {
 }
 
 mkdir -p "$outdir"
-for doc in "$docs"/deliveries/*/doc.typ; do
+for doc in "$docs"/deliveries/$only/doc.typ; do
+  [[ -f "$doc" ]] || { echo "Keine Abgabe gefunden: deliveries/$only/doc.typ" >&2; exit 1; }
   title=$(typst query "${typst_args[@]}" "$doc" "<pren-title>" --field value --one | jq -r .)
   out="$outdir/$(printf '%s' "$title" | slugify)-$(printf '%s' "$version" | slugify).pdf"
   typst compile "${typst_args[@]}" \
