@@ -544,14 +544,13 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     contra: ([Aufwändig], [Höherer Rechen- und Energiebedarf], [Liefert teilweise keine normalen Bilder]),
     note: 6,
   ),
-    (
-    name: [Tiefenkamera (Time-of-Flight)], quelle: [@arducam-tof],
-    text: [Kamera, die zusätzlich die Tiefe bestimmen kann],
-    pro: ([3D-Information], [Entfernung direkt bestimmbar]),
-    contra: ([Aufwändig], [Höherer Rechen- und Energiebedarf], [Liefert teilweise keine normalen Bilder]),
-    note: 6,
+  (
+    name: [KI-Kamera (Sony IMX500)], quelle: [@rpi-ai-cam],
+    text: [RGB-Kamera mit integriertem KI-Beschleuniger auf dem Bildsensor, z. B. Raspberry Pi AI Camera],
+    pro: ([Objekterkennung direkt auf der Kamera → entlastet den Raspberry Pi], [Liefert zusätzlich ein normales RGB-Bild (z. B. für MediaPipe)], [Offiziell von Ultralytics unterstützt]),
+    contra: ([Nur Nano-Modelle (YOLOv8n/YOLO11n) offiziell exportierbar], [Aufwändige Modellkonvertierung (Quantisierung, RPK)], [Teurer als normale RGB-Kamera], [Keine Tiefeninformation]),
+    note: 8,
   ),
-  //Sony IMX500
 )
 
 === Objekterkennung (Software)
