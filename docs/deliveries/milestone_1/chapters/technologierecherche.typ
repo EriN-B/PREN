@@ -99,7 +99,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Energieversorgung
 
-#recherche[Eric]
+#recherche[Eric Frick]
 
 
 #tech-tabelle(
@@ -138,7 +138,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Rechenplattform
 
-#recherche[Erin, Cédric]
+#recherche[Erin Bachmann, Cédric Gerber]
 
 
 #tech-tabelle(
@@ -170,7 +170,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Steuerungsarchitektur <kap-steuerung>
 
-#recherche[Eric, Samuel]
+#recherche[Eric Frick, Samuel Felder]
 
 #tech-tabelle(
   [Technologievarianten Steuerungsarchitektur],
@@ -214,7 +214,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Fortbewegung
 
-#recherche[Lee, Erin, Samuel, Jan]
+#recherche[Lee Kürsener, Erin Bachmann, Samuel Felder, Jan Grisiger]
 
 === Fortbewegungskonzept
 
@@ -288,7 +288,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Navigation <kap-navigation>
 
-#recherche[Cédric, Erin]
+#recherche[Cédric Gerber, Erin Bachmann]
 
 
 #tech-tabelle(
@@ -313,7 +313,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Simulator
 
-#recherche[Cédric, Erin]
+#recherche[Cédric Gerber, Erin Bachmann]
 
 === Simulationsumgebung
 
@@ -408,7 +408,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Reaktion und Emotion
 
-#recherche[Eric, Jan, Lee]
+#recherche[Eric Frick, Jan Grisiger, Lee Kürsener]
 
 
 === Ausgabeelemente
@@ -490,7 +490,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Audio-Erfassung
 
-#recherche[Samuel]
+#recherche[Samuel Felder]
 
 
 #tech-tabelle(
@@ -516,7 +516,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Objekterkennung
 
-#recherche[Erin, Cédric]
+#recherche[Erin Bachmann, Cédric Gerber]
 
 
 === Sensorik
@@ -598,7 +598,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Spracherkennung <kap-sprache>
 
-#recherche[Cédric]
+#recherche[Cédric Gerber]
 
 
 #tech-tabelle(
@@ -630,7 +630,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Kommunikationsschnittstellen <kap-kommunikation>
 
-#recherche[Eric, Samuel]
+#recherche[Eric Frick, Samuel Felder]
 
 
 #tech-tabelle(
@@ -669,7 +669,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 // ─────────────────────────────────────────────────────────────
 == Material und Design
 
-#recherche[Jan, Lee]
+#recherche[Jan Grisiger, Lee Kürsener]
 
 
 === Design
