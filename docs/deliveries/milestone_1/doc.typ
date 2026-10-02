@@ -113,4 +113,6 @@ Zusätzlich ist pro Anforderung festgehalten, welche Fachrichtung für deren Ums
 
 #include "chapters/technologierecherche.typ"
 
+#include "chapters/risikoanalyse.typ"
+
 #bibliography("../../library/quellen.bib", title: "Quellenverzeichnis", style: "ieee")

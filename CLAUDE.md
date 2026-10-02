@@ -30,7 +30,7 @@ There are no tests or linters. "Does it compile" is the check — the PR preview
 - Each delivery's `doc.typ` applies `#show: pren-report.with(...)`, then writes content and `#include`s chapters from its `chapters/` folder. Chapters are included, not imported, so they share the doc's context; paths inside chapters are relative to the chapter file (e.g. `../../../library/assets/...`).
 - Chapter-local helper functions live at the top of the chapter file (e.g. `tech-tabelle`, `bewertung`, `recherche` in `technologierecherche.typ`). Reuse them rather than hand-building tables.
 - Template ↔ build script contract:
-  - The template emits `#metadata(title) <pren-title>`; the build script reads it via `typst query` to derive the PDF filename (umlauts transliterated, slugified). Don't remove that label.
+  - The template emits `#metadata(title) <pren-title>`; the build script reads it via `typst query` to derive the PDF filename (umlauts transliterated, slugified; release builds get a `TEAM3-` prefix). Don't remove that label.
   - `version` and `release` come in via `sys.inputs` (`--input version=… --input release=true`). `release != "true"` → draft watermark.
 - Template conventions: captions sit below both tables and figures; Abbildungs- and Tabellenverzeichnis are generated automatically at the end of the document (after the Quellenverzeichnis), only when such figures exist; front matter uses roman page numbers, body arabic. Label references like `<kap-…>`, `<tab-…>`, `<fig-…>`.
 - Adding a new delivery = new folder `docs/deliveries/<name>/doc.typ`; the build script and CI pick up every `deliveries/*/doc.typ` automatically.
