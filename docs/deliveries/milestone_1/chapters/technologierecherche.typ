@@ -200,15 +200,8 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     text: [Verbreiteter Mikrocontroller mit WLAN],
     pro: ([WLAN integriert], [Leistungsstark und zuverlässig], [Mehr RAM als tinyK22]),
     contra: ([Wenig stromsparend],),
-    note: none,
-  ),
-  (
-    name: [Raspberry Pi + Mikrocontroller],
-    text: [Raspberry Pi als Master, Mikrocontroller als Slave für die Echtzeitansteuerung von Beinen bzw. Rädern; Kommunikation über eine geeignete Schnittstelle (@kap-kommunikation)],
-    pro: ([Genügend Leistung für Objekt- und Gestenerkennung], [Klare Aufgabentrennung]),
-    contra: ([Speisungstrennung nötig, da Stromspitzen der Aktoren zu einem Reset führen können],),
-    note: none,
-  ),
+    note: 8,
+  )
 )
 #pagebreak()
 // ─────────────────────────────────────────────────────────────
@@ -239,21 +232,21 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     text: [Für «Sitz» und «Platz» werden die Beine als Ganzes nach vorne geklappt],
     pro: ([Kein Gelenk im Bein anzusteuern],),
     contra: ([Benötigt je nach Auslegung viel Kraft vom Motor],),
-    note: none,
+    note: 8,
   ),
   (
     name: [Panzersteuerung], quelle: [@wiki-tank],
     text: [Ein Elektromotor pro Seite; durch unterschiedliche Ansteuerung ist Wenden möglich],
     pro: ([Einfach umzusetzen],),
     contra: ([Wenig innovativ],),
-    note: none,
+    note: 8,
   ),
   (
     name: [Linearantrieb (Elektrozylinder)], quelle: [@conrad-zylinder],
     text: [Chassis wird angehoben bzw. abgesenkt, um «Sitz» und «Platz» einzunehmen],
     pro: ([Einfach elektrisch ansteuerbar],),
     contra: ([Eher teuer],),
-    note: none,
+    note: 8,
   ),
 )
 
@@ -273,7 +266,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     text: [Antrieb der Beine bzw. Gelenke mit Servomotoren],
     pro: ([Genaue Ansteuerung], [Stabile Drehzahlen]),
     contra: ([Teuer], [Komplexe Ansteuerung]),
-    note: 6,
+    note: 7,
   ),
   (
     name: [DC-Getriebemotor + Encoder],
@@ -298,14 +291,14 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     text: [Simultane Lokalisierung und Kartierung anhand von Umgebungsmerkmalen; bei V-SLAM über die Kamera],
     pro: ([Sehr flexibel gegenüber der Umgebung],),
     contra: ([Wahrscheinlich überdimensioniert], [Schwierig umsetzbar und rechenintensiv], [V-SLAM ist beleuchtungsempfindlich]),
-    note: none,
+    note: 5,
   ),
   (
     name: [Odometrie: Encoder + IMU],
     text: [Schätzung der aktuellen Position über die Strecke (Rad-Encoder) und den Winkel (IMU)],
     pro: ([Einfache und genügende Lösung],),
     contra: (),
-    note: none,
+    note: 9,
   ),
 )
 
@@ -395,13 +388,6 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     contra: ([Nur Visualisierung, keine Bedienelemente],),
     note: 8,
   ),
-  (
-    name: [PyQt + pyqtgraph], quelle: [@pyqtgraph],
-    text: [Klassisches Desktop-GUI mit Echtzeit-Plots],
-    pro: ([Performant und ausgereift],),
-    contra: ([Mehr Boilerplate-Code], [Steilere Lernkurve]),
-    note: 6,
-  ),
 )
 
 
@@ -420,7 +406,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     text: [Digital ansteuerbare RGB-LEDs (WS2812), angesteuert vom Mikrocontroller],
     pro: ([Einfach], [Günstig]),
     contra: ([Stromverbrauch könnte hoch sein],),
-    note: 6,
+    note: 7,
   ),
   (
     name: [LED-Flächen / einzelne LEDs], quelle: [@conrad-flaechenled @bastelgarage-led @galaxus-leuchtmelder],
@@ -441,14 +427,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     text: [OLED-Display zur Darstellung von Augen],
     pro: ([Ausdrucksstark],),
     contra: ([Höherer Programmieraufwand], [Gefahr von Overengineering]),
-    note: 7,
-  ),
-  (
-    name: [Kombination LED + Lautsprecher + Bewegung],
-    text: [LEDs, Lautsprecher und Bewegung vereint],
-    pro: ([Grösste emotionale Wirkung],),
-    contra: ([Sehr aufwändig],),
-    note: 7,
+    note: 6,
   ),
 )
 
@@ -475,14 +454,14 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     text: [Kopf kann geneigt werden, um einen fragenden Blick zu zeigen],
     pro: ([Erhöht die Hundeähnlichkeit],),
     contra: ([Erschwert unter Umständen die Navigation], [Zusätzlicher Antrieb und Gewicht]),
-    note: none,
+    note: 6,
   ),
   (
     name: [Revier markieren], quelle: [@yt-roboterhund],
     text: [Wasser wird aus einem Behälter über einen Schlauch abgegeben],
     pro: ([Humorvoller Effekt],),
     contra: ([Schwer und aufwändig], [Kein funktionaler Nutzen]),
-    note: none,
+    note: 7,
   ),
 )
 
@@ -496,18 +475,18 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 #tech-tabelle(
   [Technologievarianten Audio-Erfassung],
   (
-    name: [Fertiges Spracherkennungs-modul], quelle: [@mouser-sen0539],
+    name: [Fertiges Spracher- \ kennungs-modul], quelle: [@mouser-sen0539],
     text: [Fertige Hardware für Raspberry Pi oder Mikrocontroller (z. B. DFRobot SEN0539). Bewertung gilt, sofern die Erkennung auf 1–2 m Abstand funktioniert.],
     pro: ([Potenziell kleinster Aufwand],),
     contra: ([Zuverlässigkeit der Module muss geprüft werden], [Höhere Kosten]),
-    note: 9,
+    note: 7,
   ),
   (
     name: [Mikrofon + Schnittstelle],
     text: [Mikrofon über ein Modul (z. B. HAT) am Raspberry Pi oder über Verstärker und Filter direkt an einen ADC mit eigener Signalverarbeitung],
     pro: ([Geringste Kosten], [Volle Kontrolle über das Verhalten], [Flexible Platzierung der Mikrofone]),
     contra: ([Je nach Algorithmus hohe Hardwareanforderungen], [Mittlerer bis grosser Gesamtaufwand]),
-    note: 7,
+    note: 8,
   ),
 )
 
@@ -534,7 +513,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     name: [RGB-Kamera], quelle: [@rpi-cam3],
     text: [Normale Farbkamera, z. B. Raspberry Pi Camera Module 3],
     pro: ([Günstig], [Einfach]),
-    contra: ([Abhängig von der Beleuchtung], [Keine Tiefeninformation]),
+    contra: ([Abhängig von der Beleuchtung], [Keine Tiefeninformation], [Kamerawinkel müsste verstellbar sein]),
     note: 9,
   ),
   (
@@ -551,6 +530,13 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     contra: ([Nur Nano-Modelle (YOLOv8n/YOLO11n) offiziell exportierbar], [Aufwändige Modellkonvertierung (Quantisierung, RPK)], [Teurer als normale RGB-Kamera], [Keine Tiefeninformation]),
     note: 8,
   ),
+  (
+    name: [Synchronized Stereo Camera HAT for Raspberry Pi], quelle: [@pi-stereo-cam],
+    text: [test],
+    pro: (),
+    contra: (),
+    note: 9,
+  )
 )
 
 === Objekterkennung (Software)
@@ -560,7 +546,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
   (
     name: [YOLO-World], quelle: [@ultralytics-yoloworld],
     text: [Open-Vocabulary-Objekterkennung],
-    pro: ([Knochen und Personen ohne eigenes Training per Text-Prompt erkennbar], [Flexibel bei neuen Objekten]),
+    pro: ([Knochen und Personen ohne eigenes Training per Text-Prompt erkennbar], [Flexibel bei neuen Objekten], [Verschieden grosse Modelle]),
     contra: ([Mehr Rechenaufwand als YOLO26n], [Zero-Shot-Erkennung des Knochens muss getestet werden]),
     note: 8,
   ),
