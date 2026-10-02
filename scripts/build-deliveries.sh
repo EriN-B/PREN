@@ -9,14 +9,17 @@
 #   OUTDIR     Zielordner (Default: dist)
 #
 # Dateiname wird aus dem Dokumenttitel abgeleitet, z. B.
-#   Konzeptbericht-Meilenstein-1-v1.2.0.pdf
+#   Konzeptbericht-Meilenstein-1-Entwurf.pdf
+# Bei --release wird zusätzlich «TEAM3» vorangestellt, z. B.
+#   TEAM3-Konzeptbericht-Meilenstein-1-v1.2.0.pdf
 set -euo pipefail
 
 release=false
+prefix=""
 only="*"
 while [[ "${1:-}" == --* ]]; do
   case "$1" in
-    --release) release=true; shift ;;
+    --release) release=true; prefix="TEAM3-"; shift ;;
     --only)    only="${2:?--only braucht einen Abgabe-Namen}"; shift 2 ;;
     *)         echo "Unbekannte Option: $1" >&2; exit 2 ;;
   esac
@@ -38,7 +41,7 @@ mkdir -p "$outdir"
 for doc in "$docs"/deliveries/$only/doc.typ; do
   [[ -f "$doc" ]] || { echo "Keine Abgabe gefunden: deliveries/$only/doc.typ" >&2; exit 1; }
   title=$(typst query "${typst_args[@]}" "$doc" "<pren-title>" --field value --one | jq -r .)
-  out="$outdir/$(printf '%s' "$title" | slugify)-$(printf '%s' "$version" | slugify).pdf"
+  out="$outdir/${prefix}$(printf '%s' "$title" | slugify)-$(printf '%s' "$version" | slugify).pdf"
   typst compile "${typst_args[@]}" \
     --input version="$version" --input release="$release" \
     "$doc" "$out"
