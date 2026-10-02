@@ -1,11 +1,16 @@
-# Erstellt bei jedem in main gemergten PR ein GitHub-Release mit allen
-# Abgaben (docs/deliveries/*/doc.typ) als versionierte PDFs (ohne Wasserzeichen).
+# Erstellt bei jedem in main gemergten PR pro geänderter Abgabe ein eigenes
+# GitHub-Release mit dem versionierten PDF (ohne Wasserzeichen).
 #
-# Versionierung (SemVer, Tags vX.Y.Z) über PR-Labels:
+# Jede Abgabe (docs/deliveries/<name>/) hat ihre eigene Version, Tags heissen
+# <name>/vX.Y.Z, z. B. milestone_1/v1.2.0. Released wird nur, wessen Ordner
+# im PR geändert wurde; Änderungen nur an docs/library/ lösen kein Release aus.
+#
+# Versionierung (SemVer) über PR-Labels, gilt für alle geänderten Abgaben:
 #   release:major  -> v2.0.0   (z. B. neue Meilenstein-Abgabe)
 #   release:minor  -> v1.3.0   (neue Kapitel / grössere Inhalte)
 #   (kein Label)   -> v1.2.4   (Korrekturen)
 #   release:skip   -> kein Release
+# Erstes Release einer Abgabe startet bei v0.0.0 (mit release:major -> v1.0.0).
 
 name: Release deliveries
 
@@ -14,9 +19,19 @@ on:
     types: [closed]
     branches: [main]
   workflow_dispatch:
+    inputs:
+      delivery:
+        description: Abgabe (Ordnername in docs/deliveries/)
+        required: true
+      bump:
+        description: Versionssprung
+        type: choice
+        options: [patch, minor, major]
+        default: patch
 
 permissions:
   contents: write
+  pull-requests: read
 
 concurrency:
   group: release-deliveries
@@ -37,33 +52,65 @@ jobs:
 
       - uses: ./.github/actions/setup-typst
 
-      - name: Determine version
-        id: version
-        env:
-          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
-        run: |
-          latest=$(git tag --list 'v*.*.*' --sort=-v:refname | head -n1)
-          IFS=. read -r major minor patch <<< "${latest:-v0.0.0}"
-          major=${major#v}
-          case ",$LABELS," in
-            *,release:major,*) major=$((major + 1)); minor=0; patch=0 ;;
-            *,release:minor,*) minor=$((minor + 1)); patch=0 ;;
-            *)                 patch=$((patch + 1)) ;;
-          esac
-          echo "version=v${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
-          echo "Previous: ${latest:-none} -> v${major}.${minor}.${patch}"
-
-      - name: Build PDFs
-        env:
-          VERSION: ${{ steps.version.outputs.version }}
-        run: scripts/build-deliveries.sh --release "$VERSION" dist
-
-      - name: Create release
+      - name: Determine deliveries and bump
+        id: plan
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.version.outputs.version }}
+          PR: ${{ github.event.pull_request.number }}
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+          INPUT_DELIVERY: ${{ inputs.delivery }}
+          INPUT_BUMP: ${{ inputs.bump }}
         run: |
-          gh release create "$VERSION" dist/*.pdf \
-            --target "$(git rev-parse HEAD)" \
-            --title "Abgaben $VERSION" \
-            --generate-notes
+          if [[ -n "$INPUT_DELIVERY" ]]; then
+            deliveries="$INPUT_DELIVERY"
+            bump="$INPUT_BUMP"
+          else
+            # Dateiliste des PRs (unabhängig von Merge-, Squash- oder Rebase-Merge)
+            deliveries=$(gh pr diff "$PR" --name-only \
+              | sed -n 's|^docs/deliveries/\([^/]*\)/.*|\1|p' | sort -u)
+            case ",$LABELS," in
+              *,release:major,*) bump=major ;;
+              *,release:minor,*) bump=minor ;;
+              *)                 bump=patch ;;
+            esac
+          fi
+          # Gelöschte Abgaben überspringen
+          existing=""
+          for d in $deliveries; do
+            [[ -f "docs/deliveries/$d/doc.typ" ]] && existing+="$d " || echo "Überspringe $d (kein doc.typ)"
+          done
+          echo "Abgaben: ${existing:-keine} (Bump: $bump)"
+          echo "deliveries=$existing" >> "$GITHUB_OUTPUT"
+          echo "bump=$bump" >> "$GITHUB_OUTPUT"
+
+      - name: Build and release
+        if: steps.plan.outputs.deliveries != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DELIVERIES: ${{ steps.plan.outputs.deliveries }}
+          BUMP: ${{ steps.plan.outputs.bump }}
+        run: |
+          for d in $DELIVERIES; do
+            latest=$(git tag --list "$d/v*.*.*" --sort=-v:refname | head -n1)
+            IFS=. read -r major minor patch <<< "${latest#"$d/"}"
+            major=${major#v}; major=${major:-0}; minor=${minor:-0}; patch=${patch:-0}
+            case "$BUMP" in
+              major) major=$((major + 1)); minor=0; patch=0 ;;
+              minor) minor=$((minor + 1)); patch=0 ;;
+              *)     patch=$((patch + 1)) ;;
+            esac
+            version="v${major}.${minor}.${patch}"
+            echo "$d: ${latest:-keine} -> $d/$version"
+
+            out="dist/$d"
+            scripts/build-deliveries.sh --release --only "$d" "$version" "$out"
+            title=$(typst query --root docs --font-path docs/library/fonts --ignore-system-fonts \
+              "docs/deliveries/$d/doc.typ" "<pren-title>" --field value --one | jq -r .)
+
+            notes_args=(--generate-notes)
+            [[ -n "$latest" ]] && notes_args+=(--notes-start-tag "$latest")
+            gh release create "$d/$version" "$out"/*.pdf \
+              --target "$(git rev-parse HEAD)" \
+              --title "$title $version" \
+              "${notes_args[@]}"
+          done

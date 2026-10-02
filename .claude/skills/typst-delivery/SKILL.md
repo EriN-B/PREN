@@ -84,4 +84,4 @@ Or build all: `scripts/build-deliveries.sh` (output in `dist/`). Fix all errors;
 
 ## Wrap-up
 
-Summarise what changed and suggest the PR label (`release:major` new delivery · `release:minor` new chapters/content · none for corrections · `release:skip` for non-content changes).
+Summarise what changed and suggest the PR label (`release:major` new delivery · `release:minor` new chapters/content · none for corrections · `release:skip` for non-content changes). Versions are per delivery (tags `<name>/vX.Y.Z`): only deliveries whose folder the PR touches get a release, and the label applies to all of them — so keep changes to different deliveries in separate PRs when they need different bumps.
