@@ -626,6 +626,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 )
 
 
+#pagebreak()
 // ─────────────────────────────────────────────────────────────
 == Kommunikationsschnittstellen <kap-kommunikation>
 
@@ -664,7 +665,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
   ),
 )
 
-
+#pagebreak()
 // ─────────────────────────────────────────────────────────────
 == Material und Design
 
