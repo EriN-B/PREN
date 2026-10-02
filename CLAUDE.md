@@ -32,7 +32,7 @@ There are no tests or linters. "Does it compile" is the check — the PR preview
 - Template ↔ build script contract:
   - The template emits `#metadata(title) <pren-title>`; the build script reads it via `typst query` to derive the PDF filename (umlauts transliterated, slugified). Don't remove that label.
   - `version` and `release` come in via `sys.inputs` (`--input version=… --input release=true`). `release != "true"` → draft watermark.
-- Template conventions: tables get captions on top, figures below; image/table outlines appear automatically only when such figures exist; front matter uses roman page numbers, body arabic. Label references like `<kap-…>`, `<tab-…>`, `<fig-…>`.
+- Template conventions: captions sit below both tables and figures; Abbildungs- and Tabellenverzeichnis are generated automatically at the end of the document (after the Quellenverzeichnis), only when such figures exist; front matter uses roman page numbers, body arabic. Label references like `<kap-…>`, `<tab-…>`, `<fig-…>`.
 - Adding a new delivery = new folder `docs/deliveries/<name>/doc.typ`; the build script and CI pick up every `deliveries/*/doc.typ` automatically.
 
 ## CI / Releases (`.github/workflows/`)

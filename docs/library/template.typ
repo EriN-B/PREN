@@ -40,17 +40,17 @@
   show heading.where(level: 1): it => {
     if it.outlined { pagebreak(weak: true) }
     v(0.5em)
-    set text(size: 20pt)
-    if it.numbering != none [#counter(heading).display() #h(0.6em)]
-    it.body
-    v(0.8em)
+    block(below: 1.35em, {
+      set text(size: 20pt)
+      if it.numbering != none [#counter(heading).display() #h(0.6em)]
+      it.body
+    })
   }
   show heading.where(level: 2): set text(size: 13pt)
   show heading.where(level: 2): set block(above: 1.6em, below: 0.8em)
   show heading.where(level: 3): set text(size: 11pt)
 
   // ── Abbildungen & Tabellen ─────────────────────────────────
-  show figure.where(kind: table): set figure.caption(position: top)
   show figure.caption: set text(size: 9pt)
   show figure.caption: it => [*#it.supplement #context it.counter.display(it.numbering):* #it.body]
   set table(
@@ -126,20 +126,21 @@
     outline(title: "Inhaltsverzeichnis", indent: auto)
   }
 
-  context {
-    if query(figure.where(kind: image)).len() > 0 {
-      pagebreak()
-      outline(title: "Abbildungsverzeichnis", target: figure.where(kind: image))
-    }
-    if query(figure.where(kind: table)).len() > 0 {
-      v(2em)
-      outline(title: "Tabellenverzeichnis", target: figure.where(kind: table))
-    }
-  }
-
   // ── Hauptteil (arabisch nummeriert) ────────────────────────
   set page(numbering: "1")
   counter(page).update(1)
 
   body
+
+  // ── Abbildungs- & Tabellenverzeichnis (am Dokumentende) ────
+  context {
+    if query(figure.where(kind: image)).len() > 0 {
+      heading(numbering: none)[Abbildungsverzeichnis]
+      outline(title: none, target: figure.where(kind: image))
+    }
+    if query(figure.where(kind: table)).len() > 0 {
+      heading(numbering: none)[Tabellenverzeichnis]
+      outline(title: none, target: figure.where(kind: table))
+    }
+  }
 }
