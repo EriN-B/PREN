@@ -1,0 +1,18 @@
+name: Setup Typst
+description: Installiert die Typst-CLI in der angegebenen Version.
+inputs:
+  version:
+    description: Typst-Version (ohne «v»)
+    default: "0.14.2"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        TYPST_VERSION: ${{ inputs.version }}
+      run: |
+        mkdir -p "$HOME/.local/bin"
+        curl -fsSL "https://github.com/typst/typst/releases/download/v${TYPST_VERSION}/typst-x86_64-unknown-linux-musl.tar.xz" \
+          | tar -xJ --strip-components=1 -C "$HOME/.local/bin" typst-x86_64-unknown-linux-musl/typst
+        echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+        "$HOME/.local/bin/typst" --version

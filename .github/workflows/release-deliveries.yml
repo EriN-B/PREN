@@ -1,0 +1,69 @@
+# Erstellt bei jedem in main gemergten PR ein GitHub-Release mit allen
+# Abgaben (docs/deliveries/*/doc.typ) als versionierte PDFs (ohne Wasserzeichen).
+#
+# Versionierung (SemVer, Tags vX.Y.Z) über PR-Labels:
+#   release:major  -> v2.0.0   (z. B. neue Meilenstein-Abgabe)
+#   release:minor  -> v1.3.0   (neue Kapitel / grössere Inhalte)
+#   (kein Label)   -> v1.2.4   (Korrekturen)
+#   release:skip   -> kein Release
+
+name: Release deliveries
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-deliveries
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+       !contains(github.event.pull_request.labels.*.name, 'release:skip'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.ref }}
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-typst
+
+      - name: Determine version
+        id: version
+        env:
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          latest=$(git tag --list 'v*.*.*' --sort=-v:refname | head -n1)
+          IFS=. read -r major minor patch <<< "${latest:-v0.0.0}"
+          major=${major#v}
+          case ",$LABELS," in
+            *,release:major,*) major=$((major + 1)); minor=0; patch=0 ;;
+            *,release:minor,*) minor=$((minor + 1)); patch=0 ;;
+            *)                 patch=$((patch + 1)) ;;
+          esac
+          echo "version=v${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
+          echo "Previous: ${latest:-none} -> v${major}.${minor}.${patch}"
+
+      - name: Build PDFs
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: scripts/build-deliveries.sh --release "$VERSION" dist
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh release create "$VERSION" dist/*.pdf \
+            --target "$(git rev-parse HEAD)" \
+            --title "Abgaben $VERSION" \
+            --generate-notes

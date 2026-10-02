@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+
+# Lokal kompilierte PDFs (Releases kommen aus der CI)
+dist/
+docs/**/*.pdf

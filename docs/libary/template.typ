@@ -11,17 +11,28 @@
   coach: none,
   milestone: none,
   date: datetime.today(),
+  // Werden von scripts/build-deliveries.sh via `--input` gesetzt
+  version: sys.inputs.at("version", default: "Entwurf"),
+  draft: sys.inputs.at("release", default: "false") != "true",
   logo: none,
   accent: rgb("#1f2937"),
-  font: ("Inter", "Helvetica Neue", "Arial", "Libertinus Serif"),
+  font: "Inter", // liegt in libary/fonts
   body,
 ) = {
   let date-str = if type(date) == datetime { date.display("[day].[month].[year]") } else { date }
 
-  set document(title: title, author: members)
+  set document(title: title + " (" + version + ")", author: members)
   set text(lang: "de", region: "ch", font: font, size: 10.5pt)
   set par(justify: true, leading: 0.7em, spacing: 1.2em)
   set page(paper: "a4", margin: (x: 2.5cm, top: 3cm, bottom: 2.5cm))
+
+  // Titel für Build-Skript (Dateiname der PDFs)
+  [#metadata(title) <pren-title>]
+
+  // ── Entwurfs-Wasserzeichen (nur ausserhalb von Releases) ───
+  set page(background: if draft {
+    rotate(-45deg, text(size: 90pt, weight: "bold", fill: luma(235), tracking: 0.1em)[ENTWURF])
+  })
 
   // ── Überschriften ──────────────────────────────────────────
   set heading(numbering: "1.1")
@@ -75,6 +86,7 @@
       ..if members.len() > 0 { row("Mitglieder", members.join(linebreak())) },
       ..if coach != none { row("Betreuung", coach) },
       ..if milestone != none { row("Abgabe", milestone) },
+      ..row("Version", version),
       ..row("Datum", date-str),
     )
     #v(1.5cm)
@@ -98,7 +110,7 @@
       grid(
         columns: (1fr, 1fr),
         align: (left, right),
-        module,
+        [#module · #version],
         counter(page).display(page.numbering),
       )
     },

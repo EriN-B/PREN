@@ -1,0 +1,56 @@
+# Baut bei jedem PR alle Abgaben als Entwurf (mit Wasserzeichen) und
+# verlinkt die PDFs in einem Kommentar, damit Reviewer:innen sie vor dem
+# Merge lesen können. Schlägt fehl, wenn ein Dokument nicht kompiliert.
+
+name: Preview deliveries
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-typst
+
+      - name: Build PDFs
+        env:
+          PR: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: scripts/build-deliveries.sh "PR-${PR}-${SHA:0:7}" dist
+
+      - name: Upload PDFs
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: deliveries-pr-${{ github.event.pull_request.number }}
+          path: dist/*.pdf
+          retention-days: 14
+
+      - name: Comment on PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          URL: ${{ steps.upload.outputs.artifact-url }}
+        run: |
+          {
+            echo "### 📄 PDF-Vorschau"
+            echo
+            echo "Stand \`${SHA:0:7}\` – [PDFs herunterladen (ZIP)]($URL)"
+            echo
+            for f in dist/*.pdf; do echo "- \`$(basename "$f")\`"; done
+          } > comment.md
+          gh pr comment "$PR" --edit-last --create-if-none --body-file comment.md
