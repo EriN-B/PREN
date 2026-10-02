@@ -13,6 +13,8 @@
 
 #include "chapters/gruppenorganisation.typ"
 
+#include "chapters/projektplanung.typ"
+
 = Anforderungsliste <kap-anforderungen>
 
 Die Anforderungsliste wurde auf Grundlage der Aufgabenstellung @aufgabe erarbeitet und ist in sechs Themengebiete gegliedert: das Gerät selbst, den Wettbewerb, das Budget, Datenschutz und gesellschaftliche Aspekte, Material und Maschinennutzung sowie die Simulation. Jede Anforderung ist einer der folgenden Kategorien zugeordnet:

@@ -132,6 +132,13 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     contra: ([Höheres Gewicht und mehr Platzbedarf], [Zwei verschiedene Speisungen]),
     note: 8,
   ),
+  (
+    name: [Kommerzieller Akku mit DC/DC-Konverter],
+    text: [Akku eines handelsüblichen Akkuwerkzeugs. Die benötigten Spannungen werden über DC/DC-Wandler erzeugt, die nach einer ersten Berechnung der Versorgungszweige selbst entwickelt werden.],
+    pro: ([Geringerer Aufwand], [Hotswap möglich], [Grosse Strombelastbarkeit], [Akku für die Kundschaft vielseitig einsetzbar (Verkaufsargument)], [Nachhaltig durch Wiederverwendung]),
+    contra: ([Kosten ca. CHF 40–90 für 2 Akkus ohne Ladegerät], [Mechanische Halterung erforderlich]),
+    note: 9,
+  ),
 )
 
 #pagebreak()
@@ -168,7 +175,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 
 
 // ─────────────────────────────────────────────────────────────
-== Steuerungsarchitektur <kap-steuerung>
+== Steuerung (architektur) <kap-steuerung>
 
 #recherche[Eric Frick, Samuel Felder]
 
@@ -231,7 +238,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     name: [Starre Beine mit Rädern],
     text: [Für «Sitz» und «Platz» werden die Beine als Ganzes nach vorne geklappt],
     pro: ([Kein Gelenk im Bein anzusteuern],),
-    contra: ([Benötigt je nach Auslegung viel Kraft vom Motor],),
+    contra: ([Benötigt je nach Auslegung viel Kraft vom Motor], [Schränkt die Möglichkeiten bei Kunststücken ein]),
     note: 8,
   ),
   (
@@ -294,10 +301,10 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     note: 5,
   ),
   (
-    name: [Odometrie: Encoder + IMU],
-    text: [Schätzung der aktuellen Position über die Strecke (Rad-Encoder) und den Winkel (IMU)],
-    pro: ([Einfache und genügende Lösung],),
-    contra: (),
+    name: [Odometrie: Encoder + IMU], quelle: [@mouser-bno085],
+    text: [Schätzung der aktuellen Position über die Strecke (Rad-Encoder) und den Winkel (IMU, z. B. BNO085)],
+    pro: ([Einfache und genügende Lösung für die abzusuchende Fläche],),
+    contra: ([Ungenauigkeiten summieren sich bei längerem Betrieb],),
     note: 9,
   ),
 )
@@ -428,6 +435,13 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     pro: ([Ausdrucksstark],),
     contra: ([Höherer Programmieraufwand], [Gefahr von Overengineering]),
     note: 6,
+  ),
+  (
+    name: [Kombination LED + Lautsprecher + Bewegung],
+    text: [LEDs, Lautsprecher und Bewegung vereint],
+    pro: ([Grösste emotionale Wirkung],),
+    contra: ([Sehr aufwändig],),
+    note: 7,
   ),
 )
 
@@ -691,7 +705,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
   (
     name: [ABS], quelle: [@markforged-materialien],
     text: [Thermoplastischer Kunststoff für den 3D-Druck],
-    pro: ([Günstig], [Ausgeglichene Werkstoffeigenschaften], [Gut 3D-druckbar]),
+    pro: ([Günstig], [Ausgeglichene Werkstoffeigenschaften], [Gut 3D-druckbar], [Gute Haltbarkeit]),
     contra: ([Schlechte chemische Beständigkeit], [Mittelmässige Festigkeit]),
     note: 9,
   ),
@@ -702,37 +716,18 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     contra: ([Geringe Wärmebeständigkeit], [Geringe Haltbarkeit], [Schlechte chemische Beständigkeit]),
     note: none,
   ),
+  (
+    name: [PETG], quelle: [@markforged-materialien],
+    text: [Kunststoff für den 3D-Druck],
+    pro: ([Hohe Festigkeit], [Gute Haltbarkeit], [Gut 3D-druckbar]),
+    contra: ([Geringere Steifigkeit als PLA],),
+    note: 8,
+  ),
+  (
+    name: [Aluminium], quelle: [@sunrise-aluminium],
+    text: [Leichtmetall, z. B. als Strukturprofile],
+    pro: ([Höhere Festigkeit als Kunststoff], [Geringere Dichte als andere Metalle], [Modularität durch Item-Profile]),
+    contra: ([Teuer], [Für das Team nicht 3D-druckbar], [Schwerer als Kunststoffe]),
+    note: 5,
+  ),
 )
-
-
-#pagebreak()
-// ─────────────────────────────────────────────────────────────
-== Zusammenfassung
-
-@tab-tech-zusammenfassung fasst die jeweils am besten bewerteten Varianten pro Funktionsbereich zusammen. Sie bilden die Ausgangslage für die weitere Konzeptentwicklung.
-
-#figure(
-  {
-    set text(size: 9pt)
-    set par(justify: false)
-    table(
-      columns: (auto, 1fr, auto),
-      align: (x, _) => if x == 2 { center + horizon } else { left + horizon },
-      table.header([Funktionsbereich], [Höchstbewertete Variante(n)], [Bewertung]),
-      [Energieversorgung], [LiPo-Akku; Powerbank + separater Akku für Aktoren], bewertung(8),
-      [Rechenplattform], [Raspberry Pi 5 (4 GB)], bewertung(8),
-      [Steuerungsarchitektur], [Raspberry Pi Pico (als Slave zum Raspberry Pi)], bewertung(9),
-      [Fortbewegung], [Beine mit Rädern als Füsse], bewertung(8),
-      [Antrieb], [Schrittmotor (Gelenke); DC-Getriebemotor + Encoder (Räder)], [#bewertung(9) #bewertung(8)],
-      [Navigation], [Odometrie: Encoder + IMU (qualitativ favorisiert)], bewertung(none),
-      [Simulator], [Pygame 2D; python-statemachine], bewertung(10),
-      [Reaktion und Emotion], [Lautsprecher; Augen-Display; im Kreis drehen], bewertung(7),
-      [Audio-Erfassung], [Fertiges Spracherkennungsmodul], bewertung(9),
-      [Objekterkennung], [RGB-Kamera; YOLO26n; MediaPipe Hand Landmarker], bewertung(9),
-      [Spracherkennung], [Whisper mit eingeschränktem Vokabular], bewertung(9),
-      [Kommunikation], [UART], bewertung(9),
-      [Material und Design], [ABS (Design noch offen)], bewertung(9),
-    )
-  },
-  caption: [Höchstbewertete Varianten pro Funktionsbereich],
-) <tab-tech-zusammenfassung>
