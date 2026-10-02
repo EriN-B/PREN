@@ -7,9 +7,9 @@ Dokumentation (Typst) für PREN1 HS26 an der HSLU.
 ```
 docs/
   deliveries/<abgabe>/doc.typ   Abgaben (z. B. milestone_1)
-  libary/template.typ           Vorlage
-  libary/quellen.bib            Quellenverzeichnis
-  libary/fonts/                 Schriften (Inter)
+  library/template.typ          Vorlage
+  library/quellen.bib           Quellenverzeichnis
+  library/fonts/                Schriften (Inter)
 scripts/build-deliveries.sh     Baut alle Abgaben als PDF
 ```
 

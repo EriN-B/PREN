@@ -21,7 +21,7 @@ outdir="${2:-dist}"
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
 docs="$root/docs"
-fonts="$docs/libary/fonts"
+fonts="$docs/library/fonts"
 typst_args=(--root "$docs" --font-path "$fonts" --ignore-system-fonts)
 
 slugify() {

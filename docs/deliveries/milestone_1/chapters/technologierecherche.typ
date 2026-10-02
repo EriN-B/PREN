@@ -73,7 +73,7 @@
 Um für jede Teilfunktion des Hunde-Roboters eine fundierte Grundlage für die spätere Variantenauswahl zu schaffen, wurde das System in zwölf Funktionsbereiche gegliedert (@fig-funktionsbereiche). Für jeden Funktionsbereich hat das Team eine Technologierecherche durchgeführt und mögliche Lösungsvarianten mit Beschreibung, Vor- und Nachteilen sowie Quellen erfasst.
 
 #figure(
-  image("../../../libary/assets/funktionsbereiche.png", width: 78%),
+  image("../../../library/assets/funktionsbereiche.png", width: 78%),
   caption: [Funktionsbereiche des Hunde-Roboters],
 ) <fig-funktionsbereiche>
 

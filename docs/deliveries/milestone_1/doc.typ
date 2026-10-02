@@ -1,4 +1,4 @@
-#import "../../libary/template.typ": pren-report
+#import "../../library/template.typ": pren-report
 
 #show: pren-report.with(
   title: "Konzeptbericht Meilenstein 1",
@@ -8,7 +8,7 @@
   coach: "Markus Thalmann",
   milestone: "Meilenstein 1",
   date: datetime(year: 2026, month: 10, day: 2),
-  logo: image("../../libary/assets/hslu-logo.png"),
+  logo: image("../../library/assets/hslu-logo.png"),
 )
 
 = Anforderungsliste <kap-anforderungen>
@@ -95,4 +95,4 @@ Zusätzlich ist pro Anforderung festgehalten, welche Fachrichtung für deren Ums
 
 #include "chapters/technologierecherche.typ"
 
-#bibliography("../../libary/quellen.bib", title: "Quellenverzeichnis", style: "ieee")
+#bibliography("../../library/quellen.bib", title: "Quellenverzeichnis", style: "ieee")

@@ -16,7 +16,7 @@
   draft: sys.inputs.at("release", default: "false") != "true",
   logo: none,
   accent: rgb("#1f2937"),
-  font: "Inter", // liegt in libary/fonts
+  font: "Inter", // liegt in library/fonts
   body,
 ) = {
   let date-str = if type(date) == datetime { date.display("[day].[month].[year]") } else { date }
