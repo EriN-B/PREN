@@ -11,6 +11,8 @@
   logo: image("../../library/assets/hslu-logo.png"),
 )
 
+#include "chapters/gruppenorganisation.typ"
+
 = Anforderungsliste <kap-anforderungen>
 
 Die Anforderungsliste wurde auf Grundlage der Aufgabenstellung @aufgabe erarbeitet und ist in sechs Themengebiete gegliedert: das Gerät selbst, den Wettbewerb, das Budget, Datenschutz und gesellschaftliche Aspekte, Material und Maschinennutzung sowie die Simulation. Jede Anforderung ist einer der folgenden Kategorien zugeordnet:
@@ -91,6 +93,20 @@ Zusätzlich ist pro Anforderung festgehalten, welche Fachrichtung für deren Ums
     },
     caption: [Anforderungsliste],
   ) <tab-anforderungen>
+]
+
+// Querformat, damit die Skizze möglichst gross dargestellt wird
+#[
+  #set page(flipped: true)
+
+  = Aufgabenskizze <kap-aufgabenskizze>
+
+  #align(center + horizon)[
+    #figure(
+      image("assets/Aufgabenskizze.png", height: 13cm),
+      caption: [Aufgabenskizze],
+    ) <fig-aufgabenskizze>
+  ]
 ]
 
 #include "chapters/technologierecherche.typ"
