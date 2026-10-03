@@ -1,0 +1,17 @@
+# uv workspace root (virtual – not a package itself).
+# Runnable apps live in apps/*, shared libraries will live in packages/*.
+[tool.uv.workspace]
+members = ["apps/*"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.6",
+    "pytest>=8",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

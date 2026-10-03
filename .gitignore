@@ -4,3 +4,17 @@
 # Lokal kompilierte PDFs (Releases kommen aus der CI)
 dist/
 docs/**/*.pdf
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Workbench: recordings and downloaded model files (large / personal data)
+apps/workspace/data/
+apps/workspace/models/
+
+# IDEs
+.idea/
