@@ -50,12 +50,8 @@
     table(
       columns: (0.9cm, 2.7cm, 1.3fr, 1fr, 1fr, auto, auto, auto),
       align: (x, _) => if x >= 5 { center + horizon } else { left + top },
-      table.header(
-        table.cell(rowspan: 2)[Nr.], table.cell(rowspan: 2)[Funktion], table.cell(rowspan: 2)[Risiko],
-        table.cell(colspan: 2)[Massnahmen],
-        table.cell(rowspan: 2)[W], table.cell(rowspan: 2)[A], table.cell(rowspan: 2)[R],
-        [Verhindern], [Schadensbegrenzung],
-      ),
+      // Einzeilige Kopfzeile: das Template formatiert nur Zeile 0 als Kopf
+      table.header([Nr.], [Funktion], [Risiko], [Massnahmen Verhindern], [Massnahmen Schadens-?begrenzung], [W], [A], [R]),
       ..if zeilen.pos().len() == 0 {
         (table.cell(colspan: 8, align: center)[_Wird laufend ergänzt._],)
       } else {
