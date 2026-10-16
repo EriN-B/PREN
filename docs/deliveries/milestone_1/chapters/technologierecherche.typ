@@ -548,7 +548,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
   ),
   (
     name: [Synchronized Stereo Camera HAT for Raspberry Pi], quelle: [@pi-stereo-cam],
-    text: [test],
+    text: [TODO],
     pro: (),
     contra: (),
     note: 9,
