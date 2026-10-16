@@ -33,7 +33,9 @@
 }
 
 // Risikotabelle
-// Zeile: (nr, funktion, name, text, massnahmen: (..), w, a)
+// Zeile: (nr, funktion, name, text, verhindern: (..), begrenzen: (..), w, a)
+//   verhindern: vorbeugende Massnahmen, senken die Eintrittswahrscheinlichkeit
+//   begrenzen: Massnahmen zur Schadensbegrenzung, falls das Risiko eintritt
 //   funktion: betroffener Funktionsbereich aus der Funktionszerlegung
 //   w: Eintrittswahrscheinlichkeit 1–3, a: Auswirkung 1–3 (weglassen = noch nicht bewertet)
 // Seitenumbruch: Show-Regel unten im Kapitel (sonst lässt sich kein Label anhängen)
@@ -46,11 +48,16 @@
     // Zeilen nicht über Seitenumbruch zerreissen
     set table.cell(breakable: false)
     table(
-      columns: (0.9cm, 3.2cm, 1fr, 1fr, auto, auto, auto),
-      align: (x, _) => if x >= 4 { center + horizon } else { left + top },
-      table.header([Nr.], [Funktion], [Risiko], [Massnahmen], [W], [A], [R]),
+      columns: (0.9cm, 2.7cm, 1.3fr, 1fr, 1fr, auto, auto, auto),
+      align: (x, _) => if x >= 5 { center + horizon } else { left + top },
+      table.header(
+        table.cell(rowspan: 2)[Nr.], table.cell(rowspan: 2)[Funktion], table.cell(rowspan: 2)[Risiko],
+        table.cell(colspan: 2)[Massnahmen],
+        table.cell(rowspan: 2)[W], table.cell(rowspan: 2)[A], table.cell(rowspan: 2)[R],
+        [Verhindern], [Schadensbegrenzung],
+      ),
       ..if zeilen.pos().len() == 0 {
-        (table.cell(colspan: 7, align: center)[_Wird laufend ergänzt._],)
+        (table.cell(colspan: 8, align: center)[_Wird laufend ergänzt._],)
       } else {
         zeilen.pos().map(z => {
           let w = z.at("w", default: none)
@@ -59,7 +66,8 @@
             [#z.nr],
             z.funktion,
             [*#z.name* #if z.at("text", default: none) != none { linebreak(); z.text }],
-            punkte(z.at("massnahmen", default: ())),
+            punkte(z.at("verhindern", default: ())),
+            punkte(z.at("begrenzen", default: ())),
             if w == none [–] else [#w],
             if a == none [–] else [#a],
             risikozahl(w, a),
@@ -74,7 +82,7 @@
 
 = Risikoanalyse <kap-risikoanalyse>
 
-Die Risikoanalyse erfasst die Risiken, die den Projekterfolg gefährden können, und legt Massnahmen fest, um deren Eintrittswahrscheinlichkeit oder Auswirkung zu verringern. Sie wird im Verlauf des Projekts laufend ergänzt und neu bewertet. Dieses Kapitel zeigt den Stand zum Zeitpunkt der Abgabe.
+Die Risikoanalyse erfasst die Risiken, die den Projekterfolg gefährden können, und legt Massnahmen fest, um deren Eintrittswahrscheinlichkeit oder Auswirkung zu verringern. Die Massnahmen sind in zwei Gruppen unterteilt: Massnahmen zum *Verhindern* setzen vor dem Eintritt an und senken die Eintrittswahrscheinlichkeit. Massnahmen zur *Schadensbegrenzung* greifen, falls das Risiko trotzdem eintritt, und verringern dessen Auswirkung. Sie wird im Verlauf des Projekts laufend ergänzt und neu bewertet. Dieses Kapitel zeigt den Stand zum Zeitpunkt der Abgabe.
 
 Jedes Risiko ist einem Funktionsbereich der Funktionszerlegung (@kap-technologie) zugeordnet. Risiken, die keinen einzelnen Funktionsbereich betreffen, etwa zu Terminen, Budget oder Zusammenarbeit, sind als «Projekt» erfasst. Bewertet wird jedes Risiko nach seiner Eintrittswahrscheinlichkeit (W) und seiner Auswirkung (A) auf einer Skala von 1 bis 3 (@tab-risiko-skala). Das Produkt ergibt die Risikozahl R = W × A. Risiken mit einer Risikozahl ab 6 gelten als hoch und werden prioritär behandelt. Die erfassten Risiken sind in @tab-risikoanalyse aufgeführt.
 
@@ -115,7 +123,8 @@ Jedes Risiko ist einem Funktionsbereich der Funktionszerlegung (@kap-technologie
 //   (
 //     nr: [R01], funktion: [Energieversorgung],
 //     name: [Titel], text: [Ursache und Auswirkung],
-//     massnahmen: ([Massnahme 1], [Massnahme 2]),
+//     verhindern: ([Massnahme 1],),
+//     begrenzen: ([Massnahme 2],),
 //     w: 2, a: 3,
 //   ),
 // TODO: W und A durch das Team bewerten
@@ -124,8 +133,9 @@ Jedes Risiko ist einem Funktionsbereich der Funktionszerlegung (@kap-technologie
   (
     nr: [R01], funktion: [Rechenplattform],
     name: [Zu wenig Rechenleistung des Raspberry Pi 4],
-    text: [Der Raspberry Pi 4 ist nicht für KI-Anwendungen ausgelegt. Laufen Objekt-, Gesten- und Spracherkennung gleichzeitig, reicht die Rechenleistung möglicherweise nicht aus, und die Zeitvorgaben im Wettbewerb können nicht eingehalten werden.],
-    massnahmen: ([Auslastung früh mit einem Prototyp messen], [Rechenintensive Aufgaben auslagern, z. B. auf eine KI-Kamera], [Raspberry Pi 5 als Alternative vorsehen]),
+    text: [Der Raspberry Pi 4 hat keinen KI-Beschleuniger und ist gemäss Hersteller um den Faktor 2–3 langsamer als der Raspberry Pi 5. Laufen Objekt-, Gesten- und Spracherkennung gleichzeitig, verlängern sich die Erkennungszeiten, und die Zeitvorgaben im Wettbewerb können möglicherweise nicht eingehalten werden.],
+    verhindern: ([Auslastung früh mit einem Prototyp messen], [Rechenintensive Aufgaben auslagern, z. B. auf eine KI-Kamera]),
+    begrenzen: ([Raspberry Pi 5 als Alternative vorsehen],),
     w: 2,
     a:2
   ),
@@ -133,7 +143,8 @@ Jedes Risiko ist einem Funktionsbereich der Funktionszerlegung (@kap-technologie
     nr: [R02], funktion: [Objekterkennung],
     name: [Zu hohe Kosten durch Kameras],
     text: [Werden mehrere oder spezialisierte Kameras (KI-, Tiefen- oder Stereokamera) eingesetzt, wird ein grosser Teil des Budgets von CHF~200.– in PREN1 aufgebraucht.],
-    massnahmen: ([Anzahl Kameras auf das Nötigste beschränken], [Günstige RGB-Kamera bevorzugen, wo sie ausreicht], [Kosten laufend im Budget nachführen]),
+    verhindern: ([Anzahl Kameras auf das Nötigste beschränken], [Günstige RGB-Kamera bevorzugen, wo sie ausreicht]),
+    begrenzen: ([Kosten laufend im Budget nachführen, damit eine Überschreitung früh erkannt wird], [Bei Überschreitung auf günstigere Kamera wechseln]),
     w: 2,
     a:1
   ),
@@ -141,7 +152,8 @@ Jedes Risiko ist einem Funktionsbereich der Funktionszerlegung (@kap-technologie
     nr: [R03], funktion: [Fortbewegung],
     name: [Zu hohes Gewicht durch viele Motoren],
     text: [Jeder zusätzliche Motor erhöht Gewicht, Energiebedarf und mechanische Komplexität. Das maximale Gewicht von 7~kg kann überschritten werden.],
-    massnahmen: ([Anzahl Motoren im Konzept minimieren], [Gewichtsbilanz früh erstellen und laufend nachführen], [Leichte Motoren und Leichtbau bevorzugen]),
+    verhindern: ([Anzahl Motoren im Konzept minimieren], [Leichte Motoren und Leichtbau bevorzugen]),
+    begrenzen: ([Gewichtsbilanz früh erstellen und laufend nachführen], [Bei Überschreitung verzichtbare Zusatzfunktionen mit eigenem Motor streichen]),
     w: 1,
     a:2
   ),
@@ -149,7 +161,8 @@ Jedes Risiko ist einem Funktionsbereich der Funktionszerlegung (@kap-technologie
     nr: [R04], funktion: [Audio-Erfassung],
     name: [Ungenügende Mikrofonqualität],
     text: [Ist das Mikrofon zu wenig empfindlich oder nimmt es zu viele Störgeräusche (z. B. der eigenen Motoren) auf, werden die Sprachbefehle auf 0.5–2~m Abstand nicht zuverlässig erkannt.],
-    massnahmen: ([Mikrofon früh unter realistischen Bedingungen testen], [Mikrofon entfernt von Motoren platzieren], [Filterung bzw. Signalverarbeitung vorsehen]),
+    verhindern: ([Mikrofon früh unter realistischen Bedingungen testen], [Mikrofon entfernt von Motoren platzieren]),
+    begrenzen: ([Filterung bzw. Signalverarbeitung vorsehen],),
     w: 1,
     a: 2
   ),
@@ -157,7 +170,8 @@ Jedes Risiko ist einem Funktionsbereich der Funktionszerlegung (@kap-technologie
     nr: [R05], funktion: [Material und Design],
     name: [Gewinde in Kunststoff],
     text: [Direkt in 3D-gedruckten Kunststoff geschnittene Gewinde halten wenig Belastung aus und verschleissen bei wiederholtem Montieren. Verbindungen können sich lösen oder ausreissen.],
-    massnahmen: ([Gewindeeinsätze aus Metall oder Mutterntaschen vorsehen], [Anzahl lösbarer Verbindungen in Kunststoff minimieren]),
+    verhindern: ([Gewindeeinsätze aus Metall oder Mutterntaschen vorsehen], [Anzahl lösbarer Verbindungen in Kunststoff minimieren]),
+    begrenzen: ([Belastete Teile so gestalten, dass sie schnell nachgedruckt und ersetzt werden können],),
     w: 1,
     a: 3
   ),
@@ -165,7 +179,8 @@ Jedes Risiko ist einem Funktionsbereich der Funktionszerlegung (@kap-technologie
     nr: [R06], funktion: [Audio-Erfassung, Video-Erfassung],
     name: [Ortung],
     text: [Die Richtung, aus der ein Befehl gesprochen wird, lässt sich möglicherweise nicht zuverlässig bestimmen, etwa wegen Umgebungslärm, ungünstiger Mikrofonanordnung oder falsche Richtung der Kameras.],
-    massnahmen: ([Machbarkeit früh mit mehreren Mikrofonen testen], [Ausweichlösung über Kamera (Person erkennen) vorsehen]),
+    verhindern: ([Machbarkeit früh mit mehreren Mikrofonen testen],),
+    begrenzen: ([Ausweichlösung über Kamera (Person erkennen) vorsehen],),
     w: 2,
     a: 2
   ),

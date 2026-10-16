@@ -79,7 +79,9 @@ Um für jede Teilfunktion des Hunde-Roboters eine fundierte Grundlage für die s
 
 = Technologierecherche
 
-Jede Variante wurde anhand ihrer Eignung für das Projekt auf einer Skala von 1 bis 10 bewertet. Berücksichtigt wurden dabei insbesondere Umsetzungsaufwand, Kosten, Zuverlässigkeit und Nutzen im Hinblick auf die Aufgabenstellung @aufgabe. Varianten ohne Zahlenwert wurden qualitativ erfasst und noch nicht bewertet.
+Jede Variante wurde anhand ihrer Eignung für das Projekt auf einer Skala von 1 bis 10 bewertet. Berücksichtigt wurden dabei insbesondere Umsetzungsaufwand, Kosten, Zuverlässigkeit und Nutzen im Hinblick auf die Aufgabenstellung @aufgabe.
+
+Bewertet wird jeweils die Technologie bzw. das Lösungsprinzip und nicht das konkrete Produkt hinter der angegebenen Quelle. Die verlinkten Produkte und Seiten dienen als Beispiele und als Grundlage für Preise und technische Daten. Die Bewertung drückt aus, wie viel es sich lohnt, die Technologie in der Evaluationsphase genauer anzuschauen: Eine hohe Bewertung bedeutet, dass die Technologie vielversprechend ist und vertieft untersucht wird, eine tiefe Bewertung, dass der zu erwartende Nutzen den Aufwand einer genaueren Untersuchung voraussichtlich nicht rechtfertigt.
 
 #align(center)[
   #set text(size: 8.5pt)
@@ -168,7 +170,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     name: [Raspberry Pi 4 (4 GB)], quelle: [@reichelt-pi4],
     text: [Älteres Raspberry-Pi-Modell (2019)],
     pro: ([Etwas günstiger],),
-    contra: ([Nicht für KI-Anwendungen ausgelegt],),
+    contra: ([Deutlich geringere CPU-Leistung (4× Cortex-A72 mit 1.5 GHz statt 4× Cortex-A76 mit 2.4 GHz), gemäss Hersteller Faktor 2–3 langsamer als der Raspberry Pi 5 @rpi-pi5-news], [Kein KI-Beschleuniger: Objekt-, Gesten- und Spracherkennung brauchen mehr Zeit pro Bild bzw. Befehl], [Langsamere Erkennung erhöht das Risiko, die Zeitvorgaben im Wettbewerb zu verfehlen (siehe @kap-risikoanalyse)]),
     note: 5,
   ),
 )
@@ -546,7 +548,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
   ),
   (
     name: [Synchronized Stereo Camera HAT for Raspberry Pi], quelle: [@pi-stereo-cam],
-    text: [test],
+    text: [TODO],
     pro: (),
     contra: (),
     note: 9,
@@ -674,6 +676,8 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
 
 === Design
 
+Die Designvarianten sind noch nicht bewertet, weil das Design vom Fortbewegungskonzept abhängt. Die Bewertung erfolgt in der Nutzwertanalyse bis Meilenstein 2 (30.10.2026).
+
 #tech-tabelle(
   [Designvarianten],
   (
@@ -715,7 +719,7 @@ Die Bewertungen spiegeln den aktuellen Wissensstand nach der Recherche wider. Di
     text: [Biobasierter Kunststoff für den 3D-Druck],
     pro: ([Günstig], [Hohe Festigkeit und Steifigkeit], [Gut 3D-druckbar]),
     contra: ([Geringe Wärmebeständigkeit], [Geringe Haltbarkeit], [Schlechte chemische Beständigkeit]),
-    note: none,
+    note: 7,
   ),
   (
     name: [PETG], quelle: [@markforged-materialien],
